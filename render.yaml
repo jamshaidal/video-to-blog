@@ -1,0 +1,184 @@
+services:
+  - name: ai-video-redis
+    type: keyvalue
+    plan: starter
+    region: oregon
+    ipAllowList: []
+
+  - name: ai-video-minio
+    type: web
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./deploy/minio/Dockerfile
+    dockerContext: .
+    healthCheckPath: /minio/health/live
+    disk:
+      name: minio-data
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: MINIO_ROOT_USER
+        generateValue: true
+      - key: MINIO_ROOT_PASSWORD
+        generateValue: true
+
+  - name: ai-video-api
+    type: web
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    dockerCommand: /bin/sh -c "npx prisma migrate deploy && node src/server.js"
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-video-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: ai-video-redis
+          type: keyvalue
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_TRANSCRIPTION_MODEL
+        value: gpt-4o-transcribe
+      - key: OPENAI_CONTENT_MODEL
+        value: gpt-4.1
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_ACCESS_KEY_ID
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: MINIO_ROOT_USER
+      - key: AWS_SECRET_ACCESS_KEY
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: MINIO_ROOT_PASSWORD
+      - key: AWS_S3_BUCKET
+        value: ai-video-platform
+      - key: AWS_S3_ENDPOINT
+        fromService:
+          name: ai-video-minio
+          type: web
+          property: hostport
+      - key: AWS_S3_PUBLIC_ENDPOINT
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: AWS_S3_FORCE_PATH_STYLE
+        value: "true"
+      - key: AWS_S3_AUTO_CREATE_BUCKET
+        value: "true"
+      - key: MAX_FILE_SIZE_MB
+        value: "50"
+      - key: MAX_VIDEO_DURATION_SECONDS
+        value: "300"
+      - key: MAX_DAILY_UPLOADS_PER_USER
+        value: "3"
+      - key: WORKER_CONCURRENCY
+        value: "2"
+      - key: CORS_ORIGIN
+        sync: false
+      - key: TRUST_PROXY
+        value: "true"
+      - key: ENABLE_EMBEDDED_WORKER
+        value: "false"
+
+  - name: ai-video-worker
+    type: worker
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    dockerCommand: node src/workers/videoWorker.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-video-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: ai-video-redis
+          type: keyvalue
+          property: connectionString
+      - key: JWT_SECRET
+        fromService:
+          name: ai-video-api
+          type: web
+          envVarKey: JWT_SECRET
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: OPENAI_API_KEY
+        fromService:
+          name: ai-video-api
+          type: web
+          envVarKey: OPENAI_API_KEY
+      - key: OPENAI_TRANSCRIPTION_MODEL
+        value: gpt-4o-transcribe
+      - key: OPENAI_CONTENT_MODEL
+        value: gpt-4.1
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_ACCESS_KEY_ID
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: MINIO_ROOT_USER
+      - key: AWS_SECRET_ACCESS_KEY
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: MINIO_ROOT_PASSWORD
+      - key: AWS_S3_BUCKET
+        value: ai-video-platform
+      - key: AWS_S3_ENDPOINT
+        fromService:
+          name: ai-video-minio
+          type: web
+          property: hostport
+      - key: AWS_S3_PUBLIC_ENDPOINT
+        fromService:
+          name: ai-video-minio
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: AWS_S3_FORCE_PATH_STYLE
+        value: "true"
+      - key: AWS_S3_AUTO_CREATE_BUCKET
+        value: "true"
+      - key: MAX_FILE_SIZE_MB
+        value: "50"
+      - key: MAX_VIDEO_DURATION_SECONDS
+        value: "300"
+      - key: MAX_DAILY_UPLOADS_PER_USER
+        value: "3"
+      - key: WORKER_CONCURRENCY
+        value: "2"
+      - key: TRUST_PROXY
+        value: "true"
+      - key: ENABLE_EMBEDDED_WORKER
+        value: "false"
+
+databases:
+  - name: ai-video-db
+    plan: basic-256mb
+    region: oregon
+    databaseName: ai_video_platform
+    user: ai_video_platform
