@@ -67,7 +67,9 @@ async function processVideoJob(queueJob) {
     await queueJob.updateProgress(30);
 
     await extractAudioToMp3(videoPath, audioPath);
-    const transcription = await transcribeAudio(audioPath);
+    const transcription = await transcribeAudio(audioPath, {
+      durationSeconds: duration,
+    });
     const subtitleArtifacts = buildSubtitleArtifacts({
       segments: transcription.segments,
       transcriptText: transcription.text,

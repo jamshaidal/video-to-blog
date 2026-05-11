@@ -65,18 +65,18 @@ function ensureConfigured() {
   }
 }
 
-async function transcribeAudio(filePath) {
+async function transcribeAudio(filePath, options = {}) {
   ensureConfigured();
 
   const response = await openai.audio.transcriptions.create({
     file: fs.createReadStream(filePath),
     model: env.OPENAI_TRANSCRIPTION_MODEL,
-    response_format: "verbose_json",
+    response_format: "json",
   });
 
   return {
     text: response.text,
-    duration: Number(response.duration || 0),
+    duration: Number(response.duration || options.durationSeconds || 0),
     segments: Array.isArray(response.segments) ? response.segments : [],
   };
 }
