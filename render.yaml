@@ -32,7 +32,7 @@ services:
       - api.fuvideo.site
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    dockerCommand: /bin/sh -c "npx prisma migrate deploy && node src/server.js"
+    dockerCommand: npm run start:render
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -108,7 +108,7 @@ services:
     region: oregon
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    dockerCommand: node src/workers/videoWorker.js
+    dockerCommand: npm run worker:render
     envVars:
       - key: NODE_ENV
         value: production

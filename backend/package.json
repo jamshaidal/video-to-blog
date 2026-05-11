@@ -7,6 +7,8 @@
     "start": "node src/server.js",
     "dev": "node src/server.js",
     "worker": "node src/workers/videoWorker.js",
+    "start:render": "prisma migrate deploy && node src/server.js",
+    "worker:render": "node src/workers/videoWorker.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "test": "echo \"Error: no test specified\" && exit 1"
