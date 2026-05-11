@@ -539,6 +539,51 @@ export default function Home() {
           </section>
 
           <section className="px-5 py-12 sm:px-8">
+            <div className="mx-auto max-w-7xl">
+              <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+                <div className="lg:sticky lg:top-32">
+                  <p className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    Media services
+                  </p>
+                  <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+                    More ways to finish the video work.
+                  </h2>
+                  <p className="mt-4 text-lg leading-8 text-slate-600">
+                    For editing, audio extraction, subtitle embedding, and custom media exports, send the source file and brief on WhatsApp. We confirm scope before processing.
+                  </p>
+                  <a
+                    href={siteConfig.whatsappLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-7 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white"
+                  >
+                    Request media service
+                  </a>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {siteConfig.mediaServices.map((service) => (
+                    <article
+                      key={service.title}
+                      className="rounded-[1.5rem] border border-slate-200/80 bg-white/92 p-6 shadow-[0_16px_45px_rgba(15,23,42,0.05)]"
+                    >
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-rose-500">
+                        {service.delivery}
+                      </p>
+                      <h3 className="mt-4 text-2xl font-semibold tracking-tight text-slate-950">
+                        {service.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-7 text-slate-600">
+                        {service.summary}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="px-5 py-12 sm:px-8">
             <div className="mx-auto max-w-7xl rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#fff0f5,#ffffff)] p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
               <div className="mx-auto max-w-3xl text-center">
                 <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">

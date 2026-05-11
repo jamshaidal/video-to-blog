@@ -24,4 +24,36 @@ export const siteConfig = {
     "Platform-ready captions",
     "TXT and PDF export",
   ],
+  mediaServices: [
+    {
+      title: "Video editing",
+      summary: "Trim, clean, format, and prepare clips for publishing or client delivery.",
+      delivery: "Manual service",
+    },
+    {
+      title: "Extract audio",
+      summary: "Convert video into clean audio files for podcasts, voice notes, or reuse.",
+      delivery: "MP3 or WAV",
+    },
+    {
+      title: "Extract video",
+      summary: "Create video-only versions, mute source audio, or prepare silent visuals.",
+      delivery: "Video-only export",
+    },
+    {
+      title: "Combine audio and video",
+      summary: "Sync voiceover, music, narration, or replacement audio with a video.",
+      delivery: "Matched export",
+    },
+    {
+      title: "Add subtitles",
+      summary: "Burn captions into video or prepare subtitle files for upload platforms.",
+      delivery: "SRT, VTT, or embedded",
+    },
+    {
+      title: "Content repurposing",
+      summary: "Generate transcript, blog, YouTube description, social captions, and PDF reports.",
+      delivery: "Self-serve or manual",
+    },
+  ],
 };

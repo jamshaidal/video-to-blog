@@ -243,6 +243,49 @@ export default function PricingPage() {
             </div>
           </section>
 
+          <section className="mt-16 rounded-[2rem] border border-slate-200/80 bg-white p-8 shadow-[0_18px_60px_rgba(15,23,42,0.05)]">
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <p className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                  Manual media services
+                </p>
+                <h2 className="mt-5 text-4xl font-semibold tracking-tight">
+                  Editing, extraction, subtitles, and custom exports.
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  These requests are confirmed on WhatsApp before payment because the time depends on file length, quality, and delivery format.
+                </p>
+                <a
+                  href={siteConfig.whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-7 inline-flex rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white"
+                >
+                  Ask for a quote
+                </a>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {siteConfig.mediaServices.map((service) => (
+                  <article
+                    key={service.title}
+                    className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-5"
+                  >
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
+                      {service.delivery}
+                    </p>
+                    <h3 className="mt-3 text-xl font-semibold tracking-tight">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">
+                      {service.summary}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section className="mt-16 rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#fff1f5,#fff9f4)] p-8 shadow-[0_18px_60px_rgba(15,23,42,0.05)]">
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
               <div>
