@@ -52,6 +52,8 @@ services:
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
+      - key: APP_BASE_URL
+        value: https://fuvideo.site
       - key: OPENAI_API_KEY
         sync: false
       - key: OPENAI_TRANSCRIPTION_MODEL
@@ -96,6 +98,18 @@ services:
         value: "2"
       - key: CORS_ORIGIN
         value: https://fuvideo.site
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        value: MotionCraftAI <no-reply@fuvideo.site>
       - key: TRUST_PROXY
         value: "true"
       - key: ENABLE_EMBEDDED_WORKER
@@ -128,6 +142,8 @@ services:
           envVarKey: JWT_SECRET
       - key: JWT_EXPIRES_IN
         value: 7d
+      - key: APP_BASE_URL
+        value: https://fuvideo.site
       - key: OPENAI_API_KEY
         fromService:
           name: ai-video-api
@@ -173,6 +189,27 @@ services:
         value: "3"
       - key: WORKER_CONCURRENCY
         value: "2"
+      - key: SMTP_HOST
+        fromService:
+          name: ai-video-api
+          type: web
+          envVarKey: SMTP_HOST
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        fromService:
+          name: ai-video-api
+          type: web
+          envVarKey: SMTP_USER
+      - key: SMTP_PASS
+        fromService:
+          name: ai-video-api
+          type: web
+          envVarKey: SMTP_PASS
+      - key: EMAIL_FROM
+        value: MotionCraftAI <no-reply@fuvideo.site>
       - key: TRUST_PROXY
         value: "true"
       - key: ENABLE_EMBEDDED_WORKER

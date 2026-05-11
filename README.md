@@ -210,6 +210,9 @@ In Render:
 2. Use [render.yaml](C:/Users/dr.m.asif/ai-video-platform/render.yaml).
 3. When Render prompts for secret values, set:
    - `OPENAI_API_KEY`
+   - `SMTP_HOST`
+   - `SMTP_USER`
+   - `SMTP_PASS`
 
 After the Blueprint deploys, Render will give you:
 

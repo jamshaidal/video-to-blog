@@ -19,6 +19,7 @@ const env = {
   DATABASE_URL: process.env.DATABASE_URL || "",
   JWT_SECRET: process.env.JWT_SECRET || "",
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
+  APP_BASE_URL: process.env.APP_BASE_URL || "http://localhost:3000",
   REDIS_URL: process.env.REDIS_URL || "redis://127.0.0.1:6379",
   OPENAI_API_KEY: process.env.OPENAI_API_KEY || "",
   OPENAI_TRANSCRIPTION_MODEL:
@@ -45,6 +46,12 @@ const env = {
   ),
   WORKER_CONCURRENCY: Number(process.env.WORKER_CONCURRENCY || 2),
   CORS_ORIGIN: process.env.CORS_ORIGIN || "",
+  SMTP_HOST: process.env.SMTP_HOST || "",
+  SMTP_PORT: Number(process.env.SMTP_PORT || 587),
+  SMTP_SECURE: process.env.SMTP_SECURE === "true",
+  SMTP_USER: process.env.SMTP_USER || "",
+  SMTP_PASS: process.env.SMTP_PASS || "",
+  EMAIL_FROM: process.env.EMAIL_FROM || "MotionCraftAI <no-reply@fuvideo.site>",
   TRUST_PROXY: process.env.TRUST_PROXY
     ? process.env.TRUST_PROXY === "true"
     : process.env.NODE_ENV === "production",

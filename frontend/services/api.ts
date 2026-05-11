@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { getToken } from "./auth";
 
 export type Chapter = {
@@ -53,13 +53,41 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError<{ message?: string }>) => {
+    const message = error.response?.data?.message || error.message;
+    return Promise.reject(new Error(message));
+  }
+);
+
 export async function signup(email: string, password: string) {
   const { data } = await api.post("/auth/signup", { email, password });
   return data;
 }
 
+export async function verifyEmail(email: string, code: string) {
+  const { data } = await api.post("/auth/verify-email", { email, code });
+  return data;
+}
+
+export async function resendVerification(email: string) {
+  const { data } = await api.post("/auth/resend-verification", { email });
+  return data;
+}
+
 export async function login(email: string, password: string) {
   const { data } = await api.post("/auth/login", { email, password });
+  return data;
+}
+
+export async function forgotPassword(email: string) {
+  const { data } = await api.post("/auth/forgot-password", { email });
+  return data;
+}
+
+export async function resetPassword(token: string, password: string) {
+  const { data } = await api.post("/auth/reset-password", { token, password });
   return data;
 }
 
