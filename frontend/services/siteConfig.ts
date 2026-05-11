@@ -1,5 +1,5 @@
 const whatsappNumber =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923001234567";
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923265641620";
 
 const encodedMessage = encodeURIComponent(
   "Hi, I need help with a longer video or custom AI video processing service."
