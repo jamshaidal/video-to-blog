@@ -28,6 +28,8 @@ services:
     runtime: docker
     plan: starter
     region: oregon
+    domains:
+      - api.fuvideo.site
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     dockerCommand: /bin/sh -c "npx prisma migrate deploy && node src/server.js"
@@ -93,7 +95,7 @@ services:
       - key: WORKER_CONCURRENCY
         value: "2"
       - key: CORS_ORIGIN
-        sync: false
+        value: https://fuvideo.site
       - key: TRUST_PROXY
         value: "true"
       - key: ENABLE_EMBEDDED_WORKER
