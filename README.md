@@ -47,4 +47,4 @@ While this is an applied product, the same architecture can support AI/ML resear
 
 Muhammad Jamshaid Ali
 
-AI researcher and ML engineer focused on deepfake detection, federated learning, and applied AI systems.
+AI researcher and ML engineer focused on deepfake detection, Transformer models, CNN architectures, and applied AI systems.
